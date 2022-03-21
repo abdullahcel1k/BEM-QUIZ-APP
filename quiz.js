@@ -2,6 +2,7 @@ let questionIndex = 0;
 let correctChoiceCounter = 0;
 let currentAnswer = undefined;
 
+// Soru listesi
 let Questions = [{
    text: "Derya'nın aklından tuttuğu sayının asal çarpanlarının en küçüğü 2, en büyüğü 5'tir.Buna göre, Derya'nın aklından tuttuğu sayı aşağıdakilerden hangisi olamaz?",
    answers: [
@@ -104,8 +105,13 @@ let Questions = [{
    ]
 }];
 
+// quizPageBody HTML elementinin içerisine her soru değiştiğinde 
+// yerleştirebilmek sorularımızın kapsayıcısı olan elementimizi aldık
 let questionBody = document.querySelector("#quizPageBody");
 
+// bu metot ile soru değişikliğinde aktif olan soruyu
+// yani questionIndex index'ine sahip olan soruyu yeni soru olarak
+// işleyip  questionBody elementinin içerisine eliyoruz
 const questionRender = () => {
    let answersHtml = "";
 
@@ -113,7 +119,7 @@ const questionRender = () => {
       answersHtml +=
          `<div class="quiz__answers-answer" 
         data-iscorrect="${item.isCorrect}" 
-        onclick="checkAnswer(this)">
+        onclick="selectedChoice(this)">
          ${item.text}
       </div>`
    });
@@ -128,12 +134,12 @@ const questionRender = () => {
     ${answersHtml}
    </div > `;
 
-   questionBody.innerHTML = "";
    questionBody.innerHTML = questionHtml;
 }
 
-
-const checkAnswer = (e) => {
+// önceki bir seçim varsa bu kaldırılır 
+// daha sonra seçilen cevap belirlenir
+const selectedChoice = (e) => {
    if (questionIndex != Questions.length) {
       let questionAnswers = Array.from(document.getElementsByClassName("quiz__answers-answer"));
       for (let i = 0; i < questionAnswers.length; i++) {
@@ -148,14 +154,24 @@ const checkAnswer = (e) => {
    }
 };
 
-
+// bir sonraki soruya geçmek için kullanılır
 const nextQuestion = () => {
 
+   // eğer bir soru seçimi yapıldıysa
+   // bir aksyion veriyoruz aksi durumda hiçbirşey yapmadık
    if (currentAnswer != undefined) {
+      // doğru soru seçildiyse seçilen elemen'a 'correct' class'ını ekleyip
+      // doğru olarak gösterdi
       if (currentAnswer.dataset.iscorrect == "true") {
          currentAnswer.classList.add("correct");
          correctChoiceCounter++;
       } else {
+         /**
+          * seçilen soru yanlış ise seçilen eleman'a 'wrong' classını ekledik
+          * bu ekleme cevabının yanlış olduğunu gösteren kırmızı rengi ekledi
+          * ve daha sonra cevaplarımız içinde doğru olanı bulup ona 'correct'
+          * classını ekleyerek doğru olan cevabı gösterdik
+          */
          currentAnswer.classList.add("wrong");
          let questionAnswers = Array.from(document.getElementsByClassName("quiz__answers-answer"));
          for (let i = 0; i < questionAnswers.length; i++) {
@@ -166,6 +182,10 @@ const nextQuestion = () => {
          }
       }
 
+      /**
+       * eğer aktif soru son soru ise 
+       * kullanıcıya doğru bilgisini ve başarı oranını gösteriyoruz
+       */
       if (Questions.length - 1 == questionIndex) {
          questionIndex += 1;
          setTimeout(() => {
@@ -173,6 +193,7 @@ const nextQuestion = () => {
          }, 1000);
 
       } else {
+         // eğer son soru değil se 500ms sonra sonraki soruya geçiriyoruz
          setTimeout(() => {
             questionIndex += 1;
             questionRender();
@@ -191,4 +212,6 @@ const prevQuestion = () => {
    }
 }
 
+// sayfa ilk açıldığında ilk soruyu getirmesi için 
+// "questionRender" metodumuzu bi kere çalıştırıyoruz
 questionRender();
