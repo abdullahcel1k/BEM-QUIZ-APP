@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUIZ APP</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <section class="quiz__container">
+      <h3 class="quiz__title">Quiz Title</h3>
+      <section class="quiz__body">
+        <section class="quiz__page">
+          <div id="quizPageBody"></div>
+
+          <div class="quiz__navigation">
+            <button class="navigation_btn" onclick="">Prev</button>
+            <button class="navigation_btn ml-2" onclick="nextQuestion()">
+              Next
+            </button>
+          </div>
+        </section>
+        <section class="quiz__optic">
+          <div class="quiz__optic-header">
+            <span>Question 1/8</span>
+            <span>Need Help?</span>
+          </div>
+          <div class="quiz__optic-viewer">
+            <div class="item done"><button>1</button></div>
+            <div class="item done"><button>2</button></div>
+            <div class="item done"><button>3</button></div>
+            <div class="item active"><button>34</button></div>
+            <div class="item"><button>13</button></div>
+          </div>
+        </section>
+      </section>
+    </section>
+    <script src="./quiz.js"></script>
+  </body>
+</html>
