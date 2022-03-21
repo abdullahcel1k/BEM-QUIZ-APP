@@ -187,7 +187,6 @@ const nextQuestion = () => {
        * kullanıcıya doğru bilgisini ve başarı oranını gösteriyoruz
        */
       if (Questions.length - 1 == questionIndex) {
-         questionIndex += 1;
          setTimeout(() => {
             window.alert(`Toplam ${correctChoiceCounter} doğru yaptınız başarı oranınız : %${(correctChoiceCounter / Questions.length) * 100}`);
          }, 1000);
@@ -195,13 +194,13 @@ const nextQuestion = () => {
       } else {
          // eğer son soru değil se 500ms sonra sonraki soruya geçiriyoruz
          setTimeout(() => {
-            questionIndex += 1;
             questionRender();
-            currentAnswer = undefined;
          }, 500);
       }
 
 
+      questionIndex += 1;
+      currentAnswer = undefined;
    }
 }
 
